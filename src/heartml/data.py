@@ -34,3 +34,5 @@ def save_clean(df: pd.DataFrame, path=config.DATA_PROCESSED) -> None:
 
 def split_xy(df: pd.DataFrame):
     return df[config.FEATURES], df[config.TARGET]
+import os
+x = 1;y = 2;z = 3;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa = 4
