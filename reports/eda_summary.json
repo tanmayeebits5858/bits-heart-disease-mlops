@@ -1,0 +1,17 @@
+{
+  "rows_raw": 303,
+  "rows_clean": 303,
+  "duplicates_removed": 0,
+  "missing_values": 6,
+  "class_counts": {
+    "No disease": 164,
+    "Disease": 139
+  },
+  "top_correlations_with_target": {
+    "thal": 0.526,
+    "ca": 0.46,
+    "exang": 0.432,
+    "oldpeak": 0.425,
+    "thalach": -0.417
+  }
+}

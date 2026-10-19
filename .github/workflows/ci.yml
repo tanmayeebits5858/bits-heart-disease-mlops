@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-test-train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Lint (flake8)
+        run: flake8 src tests scripts
+
+      - name: Download dataset
+        run: python scripts/download_data.py
+
+      - name: Unit tests
+        run: |
+          mkdir -p reports
+          PYTHONPATH=src pytest -v --cov=src/heartml --cov-report=xml \
+            --junitxml=reports/junit.xml
+
+      - name: Train models (MLflow tracked)
+        run: PYTHONPATH=src python -m heartml.train | tee train_output.txt
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-artifacts
+          path: |
+            reports/junit.xml
+            coverage.xml
+            train_output.txt
+            models/
+            mlartifacts/
+            mlflow.db
+
+  docker:
+    needs: lint-test-train
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t heart-api:ci .
+
+      - name: Smoke test container
+        run: |
+          docker run -d --name api -p 8000:8000 heart-api:ci
+          for i in $(seq 1 20); do
+            curl -sf localhost:8000/health && break || sleep 2
+          done
+          curl -sf -X POST localhost:8000/predict -H 'Content-Type: application/json' \
+            -d '{"age":63,"sex":1,"cp":3,"trestbps":145,"chol":233,"fbs":1,"restecg":0,"thalach":150,"exang":0,"oldpeak":2.3,"slope":0,"ca":0,"thal":1}' \
+            | tee predict.json
+          python3 -c "import json; d=json.load(open('predict.json')); assert d['prediction'] in (0,1)"
+
+      - name: Container logs
+        if: always()
+        run: docker logs api

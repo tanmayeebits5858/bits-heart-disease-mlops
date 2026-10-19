@@ -1,0 +1,8 @@
+{"event": "model_loaded", "path": "/home/claude/heart-disease-mlops/models/model.joblib", "model": "random_forest"}
+{"event": "request", "request_id": "d7dbcc19", "method": "GET", "path": "/health", "status": 200, "latency_ms": 1.71, "client": "127.0.0.1"}
+{"event": "prediction", "prediction": 0, "confidence": 0.673}
+{"event": "request", "request_id": "29d2adb0", "method": "POST", "path": "/predict", "status": 200, "latency_ms": 25.62, "client": "127.0.0.1"}
+{"event": "prediction", "prediction": 0, "confidence": 0.9741}
+{"event": "request", "request_id": "c41655be", "method": "POST", "path": "/predict", "status": 200, "latency_ms": 17.47, "client": "127.0.0.1"}
+{"event": "request", "request_id": "6d15e021", "method": "POST", "path": "/predict", "status": 422, "latency_ms": 0.57, "client": "127.0.0.1"}
+{"event": "request", "request_id": "13424a09", "method": "GET", "path": "/metrics", "status": 200, "latency_ms": 1.2, "client": "127.0.0.1"}

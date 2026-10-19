@@ -1,0 +1,15 @@
+.git
+.github
+__pycache__
+*.pyc
+mlruns
+mlartifacts
+mlflow.db
+logs
+notebooks
+reports
+screenshots
+evidence
+tests
+data
+.venv

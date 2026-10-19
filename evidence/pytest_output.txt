@@ -1,0 +1,46 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /usr/bin/python
+cachedir: .pytest_cache
+rootdir: /home/claude/heart-disease-mlops
+configfile: setup.cfg
+testpaths: tests
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 19 items
+
+tests/test_api.py::test_health PASSED                                    [  5%]
+tests/test_api.py::test_predict_returns_prediction_and_confidence PASSED [ 10%]
+tests/test_api.py::test_predict_rejects_missing_field PASSED             [ 15%]
+tests/test_api.py::test_predict_rejects_out_of_range PASSED              [ 21%]
+tests/test_api.py::test_metrics_endpoint_exposes_counters PASSED         [ 26%]
+tests/test_data.py::test_clean_binarizes_target PASSED                   [ 31%]
+tests/test_data.py::test_clean_removes_duplicates PASSED                 [ 36%]
+tests/test_data.py::test_clean_coerces_bad_values_to_nan PASSED          [ 42%]
+tests/test_data.py::test_split_xy_columns PASSED                         [ 47%]
+tests/test_data.py::test_load_raw_validates_schema PASSED                [ 52%]
+tests/test_data.py::test_load_raw_real_file PASSED                       [ 57%]
+tests/test_features.py::test_preprocessor_output_is_finite_and_scaled PASSED [ 63%]
+tests/test_features.py::test_preprocessor_imputes_missing PASSED         [ 68%]
+tests/test_features.py::test_preprocessor_ignores_unseen_category PASSED [ 73%]
+tests/test_features.py::test_preprocessor_is_deterministic PASSED        [ 78%]
+tests/test_model.py::test_models_fit_and_predict_probabilities[logistic_regression] PASSED [ 84%]
+tests/test_model.py::test_models_fit_and_predict_probabilities[random_forest] PASSED [ 89%]
+tests/test_model.py::test_evaluate_returns_all_metrics PASSED            [ 94%]
+tests/test_model.py::test_saved_model_meets_quality_floor PASSED         [100%]
+
+../../../usr/local/lib/python3.12/dist-packages/fastapi/testclient.py:1
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.3-final-0 ________________
+
+Name                      Stmts   Miss  Cover
+---------------------------------------------
+src/heartml/__init__.py       1      0   100%
+src/heartml/api.py          106      8    92%
+src/heartml/config.py        18      0   100%
+src/heartml/data.py          20      2    90%
+src/heartml/eda.py           61     61     0%
+src/heartml/features.py       9      0   100%
+src/heartml/train.py         94     62    34%
+---------------------------------------------
+TOTAL                       309    133    57%

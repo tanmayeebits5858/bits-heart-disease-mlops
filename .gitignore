@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+mlflow.db
+mlartifacts/
+mlruns/
+logs/
+.coverage
+coverage.xml
+.pytest_cache/
+nohup.out

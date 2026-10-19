@@ -1,0 +1,32 @@
+digraph G {
+  rankdir=LR; fontname="Helvetica"; nodesep=0.35; ranksep=0.55;
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11, fillcolor="#EAF1FB", color="#3B6EA5"];
+  edge [color="#555555", fontname="Helvetica", fontsize=9];
+
+  subgraph cluster_dev { label="Development"; style=dashed; color="#999999";
+    uci [label="UCI Heart Disease\n(download_data.py)"];
+    eda [label="Cleaning + EDA\n(eda.py)"];
+    train [label="Train + tune\nLogReg, RandomForest\n(train.py)"];
+    mlflow [label="MLflow tracking\nparams, metrics, plots,\nmodels", fillcolor="#FFF4D6", color="#B8860B"];
+    model [label="Packaged pipeline\nmodel.joblib +\nmetadata.json", fillcolor="#E6F4EA", color="#2E7D32"];
+  }
+  subgraph cluster_ci { label="GitHub Actions CI"; style=dashed; color="#999999";
+    lint [label="flake8"]; test [label="pytest"]; ctrain [label="Retrain\n(artifacts)"]; dbuild [label="Docker build\n+ smoke test"];
+  }
+  subgraph cluster_run { label="Runtime (Kubernetes / Minikube)"; style=dashed; color="#999999";
+    ing [label="LoadBalancer /\nIngress"];
+    api [label="FastAPI pods (x2)\n/predict /health /metrics"];
+    logs [label="JSON request logs"];
+    prom [label="Prometheus", fillcolor="#FCE8E6", color="#C5221F"];
+    graf [label="Grafana\ndashboard", fillcolor="#FCE8E6", color="#C5221F"];
+  }
+  client [label="Client\n(JSON request)", shape=ellipse, fillcolor="#F3F3F3", color="#777777"];
+
+  uci -> eda -> train -> model;
+  train -> mlflow;
+  lint -> test -> ctrain -> dbuild;
+  model -> dbuild [label="baked into image"];
+  dbuild -> api [label="image"];
+  client -> ing -> api;
+  api -> logs; api -> prom [label="scrape /metrics"]; prom -> graf;
+}
